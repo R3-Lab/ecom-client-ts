@@ -1,12 +1,19 @@
-"use server"
+"use server";
 
-import { revalidatePath } from 'next/cache';
+import { revalidatePath } from "next/cache";
 
-import { fetcher, getSession } from './index';
-import {User, RequestsUserCreateUser, RequestsUserUpdateUser, StripeSession, Product, ShoppingCart} from './types';
+import { fetcher, getSession } from "./index";
+import {
+  User,
+  RequestsUserCreateUser,
+  RequestsUserUpdateUser,
+  StripeSession,
+  Product,
+  ShoppingCart,
+} from "./types";
 
 export const getMe = async () => {
-  const {data, error} = await fetcher<User>('/users/me')
+  const { data, error } = await fetcher<User>("/users/me");
 
   if (error) {
     console.error("Failed to get user", error);
@@ -14,34 +21,33 @@ export const getMe = async () => {
   }
 
   return data;
-}
-
+};
 
 // Get users
 export const getUsers = async ({
-                                 limit,
-                                 offset,
-                               }: {
+  limit,
+  offset,
+}: {
   limit?: number;
   offset?: number;
 }): Promise<User[]> => {
-  const { site_id } = await getSession()
+  const { site_id } = await getSession();
   const queryParams = new URLSearchParams();
 
   if (site_id) {
-    queryParams.append('ecommerce_site_id', site_id);
+    queryParams.append("ecommerce_site_id", site_id);
   }
   if (limit) {
-    queryParams.append('limit', limit.toString());
+    queryParams.append("limit", limit.toString());
   }
   if (offset) {
-    queryParams.append('offset', offset.toString());
+    queryParams.append("offset", offset.toString());
   }
 
   const { data, error } = await fetcher<User[]>(`/users?${queryParams}`);
 
   if (error) {
-    console.error('Failed to get users', error);
+    console.error("Failed to get users", error);
     throw new Error(error.message);
   }
 
@@ -50,13 +56,13 @@ export const getUsers = async ({
 
 // Create a user
 export const createUser = async (user: RequestsUserCreateUser) => {
-  const { data, error } = await fetcher<User>('/users/create', {
-    method: 'POST',
+  const { data, error } = await fetcher<User>("/users/create", {
+    method: "POST",
     body: JSON.stringify(user),
   });
 
   if (error) {
-    console.error('Failed to create user', error);
+    console.error("Failed to create user", error);
     throw new Error(error.message);
   }
 
@@ -76,9 +82,12 @@ export const getUserById = async (userId: string) => {
 };
 
 // Update a user
-export const updateUser = async (userId: string, user: RequestsUserUpdateUser) => {
+export const updateUser = async (
+  userId: string,
+  user: RequestsUserUpdateUser,
+) => {
   const { data, error } = await fetcher<User>(`/users/${userId}`, {
-    method: 'PUT',
+    method: "PUT",
     body: JSON.stringify(user),
   });
 
@@ -95,8 +104,8 @@ export const updateUser = async (userId: string, user: RequestsUserUpdateUser) =
 
 // Delete a user
 export const deleteUser = async (userId: string) => {
-  const {  error } = await fetcher<null>(`/users/${userId}`, {
-    method: 'DELETE',
+  const { error } = await fetcher<null>(`/users/${userId}`, {
+    method: "DELETE",
   });
 
   if (error) {
@@ -106,107 +115,111 @@ export const deleteUser = async (userId: string) => {
 };
 
 export const getCart = async () => {
-  const {payload} = await getSession()
+  const { payload } = await getSession();
 
   if (!payload) {
     return;
   }
 
-  const {data, error} = await fetcher<ShoppingCart>(`/users/${payload.id}/cart`)
+  const { data, error } = await fetcher<ShoppingCart>(
+    `/users/${payload.id}/cart`,
+  );
 
   if (error) {
     if (error.status === 404) {
       return;
     }
-    console.error('Failed to get cart', error);
+    console.error("Failed to get cart", error);
     throw new Error(error.message);
   }
 
   return data;
-}
+};
 
 export const addToCart = async (product_id: string, quantity: number) => {
-  const {payload} = await getSession()
+  const { payload } = await getSession();
 
   if (!payload) {
     return;
   }
 
-
-  const {error} = await fetcher(`/users/${payload.id}/cart`, {
-    method: 'POST',
-    body: JSON.stringify({product_id, quantity}),
+  const { error } = await fetcher(`/users/${payload.id}/cart`, {
+    method: "POST",
+    body: JSON.stringify({ product_id, quantity }),
   });
 
   if (error) {
-    console.error('Failed to add to cart', error);
+    console.error("Failed to add to cart", error);
     throw new Error(error.message);
   }
 
-  revalidatePath('/', 'layout')
-  revalidatePath('/cart', 'layout')
-  revalidatePath('/cart')
-}
+  revalidatePath("/", "layout");
+  revalidatePath("/cart", "layout");
+  revalidatePath("/cart");
+};
 
-export const updateCartItem = async (cart_item_id: string, quantity: number) => {
-  const {payload} = await getSession()
+export const updateCartItem = async (
+  cart_item_id: string,
+  quantity: number,
+) => {
+  const { payload } = await getSession();
 
   if (!payload) {
     return;
   }
 
-  const {error} = await fetcher(`/users/${payload.id}/cart`, {
-    method: 'PUT',
-    body: JSON.stringify({cart_item_id, quantity}),
+  const { error } = await fetcher(`/users/${payload.id}/cart`, {
+    method: "PUT",
+    body: JSON.stringify({ cart_item_id, quantity }),
   });
 
   if (error) {
-    console.error('Failed to update cart', error);
+    console.error("Failed to update cart", error);
     throw new Error(error.message);
   }
 
-  revalidatePath('/', 'layout')
-  revalidatePath('/cart', 'layout')
-  revalidatePath('/cart')
-}
+  revalidatePath("/", "layout");
+  revalidatePath("/cart", "layout");
+  revalidatePath("/cart");
+};
 
 export const deleteCartItem = async (cart_item_id?: string) => {
   if (!cart_item_id) {
     return;
   }
-  const {payload} = await getSession()
+  const { payload } = await getSession();
 
   if (!payload) {
     return;
   }
 
-  const {error} = await fetcher(`/users/${payload.id}/cart`, {
-    method: 'DELETE',
-    body: JSON.stringify({cart_item_id}),
+  const { error } = await fetcher(`/users/${payload.id}/cart`, {
+    method: "DELETE",
+    body: JSON.stringify({ cart_item_id }),
   });
 
   if (error) {
-    console.error('Failed to delete cart', error);
+    console.error("Failed to delete cart", error);
     throw new Error(error.message);
   }
 
-  revalidatePath('/', 'layout')
-  revalidatePath('/cart', 'layout')
-  revalidatePath('/cart')
-}
-
-
+  revalidatePath("/", "layout");
+  revalidatePath("/cart", "layout");
+  revalidatePath("/cart");
+};
 
 export const createSession = async () => {
-  const {data, error} = await fetcher<StripeSession>('/users/checkout_session', {
-    method: 'POST',
-  });
+  const { data, error } = await fetcher<StripeSession>(
+    "/users/checkout_session",
+    {
+      method: "POST",
+    },
+  );
 
   if (error) {
-    console.error('Failed to create session', error);
+    console.error("Failed to create session", error);
     throw new Error(error.message);
   }
 
   return data!;
-
-}
+};

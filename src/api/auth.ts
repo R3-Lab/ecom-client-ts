@@ -1,15 +1,15 @@
-"use server"
+"use server";
 
-import { cookies } from 'next/headers';
+import { cookies } from "next/headers";
 
-import { fetcher } from './index';
-import { RequestsUserLoginUser, RequestsUserSignUpUser } from './types';
+import { fetcher } from "./index";
+import { RequestsUserLoginUser, RequestsUserSignUpUser } from "./types";
 
 export const login = async (data: RequestsUserLoginUser) => {
-  const {headers, error} = await fetcher('/auth/login', {
-    method: 'POST',
+  const { headers, error } = await fetcher("/auth/login", {
+    method: "POST",
     body: JSON.stringify(data),
-  })
+  });
 
   if (error) {
     console.error("Failed to login", error);
@@ -17,13 +17,13 @@ export const login = async (data: RequestsUserLoginUser) => {
   }
 
   getTokenAndSetCookie(headers);
-}
+};
 
 export const register = async (data: RequestsUserSignUpUser) => {
-  const {error, headers} = await fetcher('/auth/register', {
-    method: 'POST',
+  const { error, headers } = await fetcher("/auth/register", {
+    method: "POST",
     body: JSON.stringify(data),
-  })
+  });
 
   if (error) {
     console.error("Failed to register", error);
@@ -31,30 +31,28 @@ export const register = async (data: RequestsUserSignUpUser) => {
   }
 
   getTokenAndSetCookie(headers);
-}
+};
 
 export const logout = async () => {
-  cookies().set('token', '', {
-    secure: process.env.NODE_ENV === 'production',
+  cookies().set("token", "", {
+    secure: process.env.NODE_ENV === "production",
     maxAge: 0,
-    path: '/',
+    path: "/",
   });
-}
-
-
+};
 
 const getTokenAndSetCookie = (headers: Headers) => {
-  const authHeader = headers.get('Authorization');
+  const authHeader = headers.get("Authorization");
 
   if (!authHeader) {
-    throw new Error('No auth header');
+    throw new Error("No auth header");
   }
 
-  const token = authHeader.split(' ')[1];
+  const token = authHeader.split(" ")[1];
 
-  cookies().set('token', token, {
-    secure: process.env.NODE_ENV === 'production',
+  cookies().set("token", token, {
+    secure: process.env.NODE_ENV === "production",
     maxAge: 60 * 60 * 24 * 7, // One week
-    path: '/',
+    path: "/",
   });
-}
+};

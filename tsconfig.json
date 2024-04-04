@@ -3,11 +3,7 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "target": "esnext",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -21,42 +17,17 @@
     "declaration": true,
     "baseUrl": ".",
     "paths": {
-      "ecom-client-ts/product": [
-        "src/api/product"
-      ],
-      "ecom-client-ts/auth": [
-        "src/api/auth"
-      ],
-      "ecom-client-ts/blog_post": [
-        "src/api/blog_post"
-      ],
-      "ecom-client-ts/orders": [
-        "src/api/orders"
-      ],
-      "ecom-client-ts/rbac": [
-        "src/api/rbac"
-      ],
-      "ecom-client-ts/user": [
-        "src/api/user"
-      ],
-      "ecom-client-ts/openapi": [
-        "src/api/openapi"
-      ],
-      "ecom-client-ts/types": [
-        "src/api/types"
-      ],
-      "ecom-client-ts": [
-        "src/api/"
-      ]
+      "ecom-client-ts/product": ["src/api/product"],
+      "ecom-client-ts/auth": ["src/api/auth"],
+      "ecom-client-ts/blog_post": ["src/api/blog_post"],
+      "ecom-client-ts/orders": ["src/api/orders"],
+      "ecom-client-ts/rbac": ["src/api/rbac"],
+      "ecom-client-ts/user": ["src/api/user"],
+      "ecom-client-ts/openapi": ["src/api/openapi"],
+      "ecom-client-ts/types": ["src/api/types"],
+      "ecom-client-ts": ["src/api/"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "src/api/openapi.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "src/api/openapi.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }

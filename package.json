@@ -12,7 +12,9 @@
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist",
-    "clean:build": "npm run clean && npm run build"
+    "clean:build": "npm run clean && npm run build",
+    "format": "prettier --check --ignore-path .gitignore .",
+    "format:fix": "prettier --write --ignore-path .gitignore ."
   },
   "exports": {
     ".": "./dist/api/index.js",
@@ -35,6 +37,7 @@
   "devDependencies": {
     "@types/node": "^20.12.4",
     "@types/react": "^18.2.74",
+    "prettier": "3.2.5",
     "supertest": "^6.3.4",
     "typescript": "^5.4.3"
   }
