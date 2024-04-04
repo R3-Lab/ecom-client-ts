@@ -1,284 +1,155 @@
 "use server";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (g && (g = 0, op[0] && (_ = 0)), _) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
 import { revalidatePath } from 'next/cache';
 import { fetcher, getSession } from './index';
-export var getMe = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, data, error;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0: return [4 /*yield*/, fetcher('/users/me')];
-            case 1:
-                _a = _b.sent(), data = _a.data, error = _a.error;
-                if (error) {
-                    console.error("Failed to get user", error);
-                    throw new Error(error.message);
-                }
-                return [2 /*return*/, data];
-        }
-    });
-}); };
+export const getMe = async () => {
+    const { data, error } = await fetcher('/users/me');
+    if (error) {
+        console.error("Failed to get user", error);
+        throw new Error(error.message);
+    }
+    return data;
+};
 // Get users
-export var getUsers = function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
-    var site_id, queryParams, _c, data, error;
-    var limit = _b.limit, offset = _b.offset;
-    return __generator(this, function (_d) {
-        switch (_d.label) {
-            case 0: return [4 /*yield*/, getSession()];
-            case 1:
-                site_id = (_d.sent()).site_id;
-                queryParams = new URLSearchParams();
-                if (site_id) {
-                    queryParams.append('ecommerce_site_id', site_id);
-                }
-                if (limit) {
-                    queryParams.append('limit', limit.toString());
-                }
-                if (offset) {
-                    queryParams.append('offset', offset.toString());
-                }
-                return [4 /*yield*/, fetcher("/users?".concat(queryParams))];
-            case 2:
-                _c = _d.sent(), data = _c.data, error = _c.error;
-                if (error) {
-                    console.error('Failed to get users', error);
-                    throw new Error(error.message);
-                }
-                return [2 /*return*/, data];
-        }
-    });
-}); };
+export const getUsers = async ({ limit, offset, }) => {
+    const { site_id } = await getSession();
+    const queryParams = new URLSearchParams();
+    if (site_id) {
+        queryParams.append('ecommerce_site_id', site_id);
+    }
+    if (limit) {
+        queryParams.append('limit', limit.toString());
+    }
+    if (offset) {
+        queryParams.append('offset', offset.toString());
+    }
+    const { data, error } = await fetcher(`/users?${queryParams}`);
+    if (error) {
+        console.error('Failed to get users', error);
+        throw new Error(error.message);
+    }
+    return data;
+};
 // Create a user
-export var createUser = function (user) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, data, error;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0: return [4 /*yield*/, fetcher('/users/create', {
-                    method: 'POST',
-                    body: JSON.stringify(user),
-                })];
-            case 1:
-                _a = _b.sent(), data = _a.data, error = _a.error;
-                if (error) {
-                    console.error('Failed to create user', error);
-                    throw new Error(error.message);
-                }
-                return [2 /*return*/, data];
-        }
+export const createUser = async (user) => {
+    const { data, error } = await fetcher('/users/create', {
+        method: 'POST',
+        body: JSON.stringify(user),
     });
-}); };
+    if (error) {
+        console.error('Failed to create user', error);
+        throw new Error(error.message);
+    }
+    return data;
+};
 // Get a user from an id
-export var getUserById = function (userId) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, data, error;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0: return [4 /*yield*/, fetcher("/users/".concat(userId))];
-            case 1:
-                _a = _b.sent(), data = _a.data, error = _a.error;
-                if (error) {
-                    console.error("Failed to get user with id ".concat(userId), error);
-                    throw new Error(error.message);
-                }
-                return [2 /*return*/, data];
-        }
-    });
-}); };
+export const getUserById = async (userId) => {
+    const { data, error } = await fetcher(`/users/${userId}`);
+    if (error) {
+        console.error(`Failed to get user with id ${userId}`, error);
+        throw new Error(error.message);
+    }
+    return data;
+};
 // Update a user
-export var updateUser = function (userId, user) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, data, error;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0: return [4 /*yield*/, fetcher("/users/".concat(userId), {
-                    method: 'PUT',
-                    body: JSON.stringify(user),
-                })];
-            case 1:
-                _a = _b.sent(), data = _a.data, error = _a.error;
-                if (error) {
-                    console.error("Failed to update user with id ".concat(userId), error);
-                    throw new Error(error.message);
-                }
-                // revalidatePath(paths.dashboard.user.account(userId))
-                // revalidatePath(paths.dashboard.user.list)
-                return [2 /*return*/, data];
-        }
+export const updateUser = async (userId, user) => {
+    const { data, error } = await fetcher(`/users/${userId}`, {
+        method: 'PUT',
+        body: JSON.stringify(user),
     });
-}); };
+    if (error) {
+        console.error(`Failed to update user with id ${userId}`, error);
+        throw new Error(error.message);
+    }
+    // revalidatePath(paths.dashboard.user.account(userId))
+    // revalidatePath(paths.dashboard.user.list)
+    return data;
+};
 // Delete a user
-export var deleteUser = function (userId) { return __awaiter(void 0, void 0, void 0, function () {
-    var error;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, fetcher("/users/".concat(userId), {
-                    method: 'DELETE',
-                })];
-            case 1:
-                error = (_a.sent()).error;
-                if (error) {
-                    console.error("Failed to delete user with id ".concat(userId), error);
-                    throw new Error(error.message);
-                }
-                return [2 /*return*/];
-        }
+export const deleteUser = async (userId) => {
+    const { error } = await fetcher(`/users/${userId}`, {
+        method: 'DELETE',
     });
-}); };
-export var getCart = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var payload, _a, data, error;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0: return [4 /*yield*/, getSession()];
-            case 1:
-                payload = (_b.sent()).payload;
-                if (!payload) {
-                    return [2 /*return*/];
-                }
-                return [4 /*yield*/, fetcher("/users/".concat(payload.id, "/cart"))];
-            case 2:
-                _a = _b.sent(), data = _a.data, error = _a.error;
-                if (error) {
-                    if (error.status === 404) {
-                        return [2 /*return*/];
-                    }
-                    console.error('Failed to get cart', error);
-                    throw new Error(error.message);
-                }
-                return [2 /*return*/, data];
+    if (error) {
+        console.error(`Failed to delete user with id ${userId}`, error);
+        throw new Error(error.message);
+    }
+};
+export const getCart = async () => {
+    const { payload } = await getSession();
+    if (!payload) {
+        return;
+    }
+    const { data, error } = await fetcher(`/users/${payload.id}/cart`);
+    if (error) {
+        if (error.status === 404) {
+            return;
         }
+        console.error('Failed to get cart', error);
+        throw new Error(error.message);
+    }
+    return data;
+};
+export const addToCart = async (product_id, quantity) => {
+    const { payload } = await getSession();
+    if (!payload) {
+        return;
+    }
+    const { error } = await fetcher(`/users/${payload.id}/cart`, {
+        method: 'POST',
+        body: JSON.stringify({ product_id, quantity }),
     });
-}); };
-export var addToCart = function (product_id, quantity) { return __awaiter(void 0, void 0, void 0, function () {
-    var payload, error;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, getSession()];
-            case 1:
-                payload = (_a.sent()).payload;
-                if (!payload) {
-                    return [2 /*return*/];
-                }
-                return [4 /*yield*/, fetcher("/users/".concat(payload.id, "/cart"), {
-                        method: 'POST',
-                        body: JSON.stringify({ product_id: product_id, quantity: quantity }),
-                    })];
-            case 2:
-                error = (_a.sent()).error;
-                if (error) {
-                    console.error('Failed to add to cart', error);
-                    throw new Error(error.message);
-                }
-                revalidatePath('/', 'layout');
-                revalidatePath('/cart', 'layout');
-                revalidatePath('/cart');
-                return [2 /*return*/];
-        }
+    if (error) {
+        console.error('Failed to add to cart', error);
+        throw new Error(error.message);
+    }
+    revalidatePath('/', 'layout');
+    revalidatePath('/cart', 'layout');
+    revalidatePath('/cart');
+};
+export const updateCartItem = async (cart_item_id, quantity) => {
+    const { payload } = await getSession();
+    if (!payload) {
+        return;
+    }
+    const { error } = await fetcher(`/users/${payload.id}/cart`, {
+        method: 'PUT',
+        body: JSON.stringify({ cart_item_id, quantity }),
     });
-}); };
-export var updateCartItem = function (cart_item_id, quantity) { return __awaiter(void 0, void 0, void 0, function () {
-    var payload, error;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, getSession()];
-            case 1:
-                payload = (_a.sent()).payload;
-                if (!payload) {
-                    return [2 /*return*/];
-                }
-                return [4 /*yield*/, fetcher("/users/".concat(payload.id, "/cart"), {
-                        method: 'PUT',
-                        body: JSON.stringify({ cart_item_id: cart_item_id, quantity: quantity }),
-                    })];
-            case 2:
-                error = (_a.sent()).error;
-                if (error) {
-                    console.error('Failed to update cart', error);
-                    throw new Error(error.message);
-                }
-                revalidatePath('/', 'layout');
-                revalidatePath('/cart', 'layout');
-                revalidatePath('/cart');
-                return [2 /*return*/];
-        }
+    if (error) {
+        console.error('Failed to update cart', error);
+        throw new Error(error.message);
+    }
+    revalidatePath('/', 'layout');
+    revalidatePath('/cart', 'layout');
+    revalidatePath('/cart');
+};
+export const deleteCartItem = async (cart_item_id) => {
+    if (!cart_item_id) {
+        return;
+    }
+    const { payload } = await getSession();
+    if (!payload) {
+        return;
+    }
+    const { error } = await fetcher(`/users/${payload.id}/cart`, {
+        method: 'DELETE',
+        body: JSON.stringify({ cart_item_id }),
     });
-}); };
-export var deleteCartItem = function (cart_item_id) { return __awaiter(void 0, void 0, void 0, function () {
-    var payload, error;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                if (!cart_item_id) {
-                    return [2 /*return*/];
-                }
-                return [4 /*yield*/, getSession()];
-            case 1:
-                payload = (_a.sent()).payload;
-                if (!payload) {
-                    return [2 /*return*/];
-                }
-                return [4 /*yield*/, fetcher("/users/".concat(payload.id, "/cart"), {
-                        method: 'DELETE',
-                        body: JSON.stringify({ cart_item_id: cart_item_id }),
-                    })];
-            case 2:
-                error = (_a.sent()).error;
-                if (error) {
-                    console.error('Failed to delete cart', error);
-                    throw new Error(error.message);
-                }
-                revalidatePath('/', 'layout');
-                revalidatePath('/cart', 'layout');
-                revalidatePath('/cart');
-                return [2 /*return*/];
-        }
+    if (error) {
+        console.error('Failed to delete cart', error);
+        throw new Error(error.message);
+    }
+    revalidatePath('/', 'layout');
+    revalidatePath('/cart', 'layout');
+    revalidatePath('/cart');
+};
+export const createSession = async () => {
+    const { data, error } = await fetcher('/users/checkout_session', {
+        method: 'POST',
     });
-}); };
-export var createSession = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, data, error;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0: return [4 /*yield*/, fetcher('/users/checkout_session', {
-                    method: 'POST',
-                })];
-            case 1:
-                _a = _b.sent(), data = _a.data, error = _a.error;
-                if (error) {
-                    console.error('Failed to create session', error);
-                    throw new Error(error.message);
-                }
-                return [2 /*return*/, data];
-        }
-    });
-}); };
+    if (error) {
+        console.error('Failed to create session', error);
+        throw new Error(error.message);
+    }
+    return data;
+};
