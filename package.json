@@ -1,0 +1,28 @@
+{
+  "name": "ecom-client-ts",
+  "version": "1.0.0",
+  "private": true,
+  "author": "Burak T <burak.tabn@gmail.com>",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "axios": "^1.6.8",
+    "jwt-decode": "^4.0.0",
+    "next": "^14.1.4",
+    "openapi-client-axios": "^7.5.4",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.4",
+    "@types/react": "^18.2.74",
+    "supertest": "^6.3.4",
+    "typescript": "^5.4.3"
+  }
+}
