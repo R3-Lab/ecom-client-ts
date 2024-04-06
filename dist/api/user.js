@@ -143,6 +143,48 @@ export const deleteCartItem = async (cart_item_id) => {
     revalidatePath("/cart", "layout");
     revalidatePath("/cart");
 };
+export const getCartButForClient = async () => {
+    const cart = await getCart();
+    if (!cart) {
+        return;
+    }
+    const items = await Promise.all(cart.items.map(async (item) => {
+        const { data: product } = await fetcher(`/products/${item.product_id}`);
+        return {
+            id: item.id,
+            quantity: item.quantity,
+            unit_price: item.unit_price,
+            product: product,
+        };
+    }));
+    return {
+        id: cart.id,
+        items,
+    };
+};
+export const mergeLocalCart = async (cart) => {
+    const { payload } = await getSession();
+    if (!payload) {
+        return;
+    }
+    const res = await Promise.all(cart.items.map((item) => fetcher(`/users/${payload.id}/cart`, {
+        method: "POST",
+        body: JSON.stringify({
+            product_id: item.product.id,
+            quantity: item.quantity,
+        }),
+    })));
+    if (res.some((r) => r.error)) {
+        console.error("Failed to add to cart", res);
+        throw new Error(res
+            .filter((e) => e.error)
+            .map((r) => r.error?.message)
+            .join(", "));
+    }
+    revalidatePath("/", "layout");
+    revalidatePath("/cart", "layout");
+    revalidatePath("/cart");
+};
 export const createSession = async () => {
     const { data, error } = await fetcher("/users/checkout_session", {
         method: "POST",

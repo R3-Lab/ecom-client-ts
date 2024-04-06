@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="34089d6e-2717-466f-beb0-4f666b566736" name="Changes" comment="added prettier">
+    <list default="true" id="34089d6e-2717-466f-beb0-4f666b566736" name="Changes" comment="export openapi types">
+      <change afterPath="$PROJECT_DIR$/src/shopping_cart.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/user.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +88,7 @@
       <option name="presentableId" value="Default" />
       <updated>1712218680339</updated>
       <workItem from="1712218682696" duration="5010000" />
-      <workItem from="1712368167904" duration="1054000" />
+      <workItem from="1712368167904" duration="2087000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -143,7 +146,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712224159639</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="export openapi types">
+      <option name="closed" value="true" />
+      <created>1712380318291</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1712380318292</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -180,7 +191,8 @@
     <MESSAGE value="added ./dist to vsc" />
     <MESSAGE value="targeting esnext" />
     <MESSAGE value="added prettier" />
-    <option name="LAST_COMMIT_MESSAGE" value="added prettier" />
+    <MESSAGE value="export openapi types" />
+    <option name="LAST_COMMIT_MESSAGE" value="export openapi types" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

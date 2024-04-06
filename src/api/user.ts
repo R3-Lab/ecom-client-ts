@@ -11,6 +11,7 @@ import {
   Product,
   ShoppingCart,
 } from "./types";
+import { AppStoreCart, AppStoreCartItem } from "../shopping_cart";
 
 export const getMe = async () => {
   const { data, error } = await fetcher<User>("/users/me");
@@ -201,6 +202,68 @@ export const deleteCartItem = async (cart_item_id?: string) => {
   if (error) {
     console.error("Failed to delete cart", error);
     throw new Error(error.message);
+  }
+
+  revalidatePath("/", "layout");
+  revalidatePath("/cart", "layout");
+  revalidatePath("/cart");
+};
+
+export const getCartButForClient = async (): Promise<
+  AppStoreCart | undefined
+> => {
+  const cart = await getCart();
+  if (!cart) {
+    return;
+  }
+
+  const items: AppStoreCartItem[] = await Promise.all(
+    cart.items.map(async (item): Promise<AppStoreCartItem> => {
+      const { data: product } = await fetcher<Product>(
+        `/products/${item.product_id}`,
+      );
+      return {
+        id: item.id,
+        quantity: item.quantity,
+        unit_price: item.unit_price,
+        product: product!,
+      };
+    }),
+  );
+
+  return {
+    id: cart.id,
+    items,
+  };
+};
+
+export const mergeLocalCart = async (cart: AppStoreCart) => {
+  const { payload } = await getSession();
+
+  if (!payload) {
+    return;
+  }
+
+  const res = await Promise.all(
+    cart.items.map((item) =>
+      fetcher(`/users/${payload.id}/cart`, {
+        method: "POST",
+        body: JSON.stringify({
+          product_id: item.product.id,
+          quantity: item.quantity,
+        }),
+      }),
+    ),
+  );
+
+  if (res.some((r) => r.error)) {
+    console.error("Failed to add to cart", res);
+    throw new Error(
+      res
+        .filter((e) => e.error)
+        .map((r) => r.error?.message)
+        .join(", "),
+    );
   }
 
   revalidatePath("/", "layout");
