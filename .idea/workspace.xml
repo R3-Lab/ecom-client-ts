@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="34089d6e-2717-466f-beb0-4f666b566736" name="Changes" comment="export openapi types">
-      <change afterPath="$PROJECT_DIR$/src/shopping_cart.ts" afterDir="false" />
+    <list default="true" id="34089d6e-2717-466f-beb0-4f666b566736" name="Changes" comment="added shopping cart hook and apis">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/user.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shopping_cart.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shopping_cart.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +85,7 @@
       <option name="presentableId" value="Default" />
       <updated>1712218680339</updated>
       <workItem from="1712218682696" duration="5010000" />
-      <workItem from="1712368167904" duration="2087000" />
+      <workItem from="1712368167904" duration="2843000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -154,7 +151,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712380318292</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="added shopping cart hook and apis">
+      <option name="closed" value="true" />
+      <created>1712385195442</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1712385195442</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -192,7 +197,8 @@
     <MESSAGE value="targeting esnext" />
     <MESSAGE value="added prettier" />
     <MESSAGE value="export openapi types" />
-    <option name="LAST_COMMIT_MESSAGE" value="export openapi types" />
+    <MESSAGE value="added shopping cart hook and apis" />
+    <option name="LAST_COMMIT_MESSAGE" value="added shopping cart hook and apis" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

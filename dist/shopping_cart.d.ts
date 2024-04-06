@@ -25,7 +25,7 @@ type AppStoreProps = {
     cart: AppStoreCart;
     set_cart: (cart: AppStoreCart) => void;
     addItem: (args: AddAppStoreCartItem) => void;
-    updateItemQuantity: (product_id: string, n: 1 | -1) => void;
+    updateItemQuantity: (product_id: string, n: 1 | -1 | number) => void;
     removeItem: (product_id: string) => void;
 };
 export declare const useAppStore: import("zustand").UseBoundStore<Omit<Omit<import("zustand").StoreApi<AppStoreProps>, "setState"> & {
