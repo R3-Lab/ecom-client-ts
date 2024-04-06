@@ -1,4 +1,4 @@
-import { User, RequestsUserCreateUser, RequestsUserUpdateUser } from './types';
+import { User, RequestsUserCreateUser, RequestsUserUpdateUser } from "./types";
 export declare const getMe: () => Promise<import("ecom-client-ts/openapi").Components.Schemas.EcommerceBackendSchemaUser>;
 export declare const getUsers: ({ limit, offset, }: {
     limit?: number;

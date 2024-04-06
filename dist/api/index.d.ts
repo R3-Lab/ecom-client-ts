@@ -1,6 +1,8 @@
-import { NextRequest } from 'next/server';
+import { NextRequest } from "next/server";
+import { Components, Paths } from "./openapi";
 export declare const API_BASE: string;
 export declare const SITE_ID: string;
+export { Components, Paths };
 type FetcherResponse<T> = {
     data?: T;
     error?: FetchError;
@@ -24,4 +26,3 @@ type JWTPayload = {
 };
 export declare const getSession: (req?: NextRequest) => Promise<SessionType>;
 export declare const setSiteIdSession: (site_id?: string, current_path?: string) => Promise<void>;
-export {};

@@ -1,13 +1,13 @@
-'use server';
-import { fetcher } from './index';
+"use server";
+import { fetcher } from "./index";
 // Add an ecommerce site
 export const addEcommerceSite = async (site) => {
-    const { data, error } = await fetcher('/rbac/ecommerce_sites/create', {
-        method: 'POST',
+    const { data, error } = await fetcher("/rbac/ecommerce_sites/create", {
+        method: "POST",
         body: JSON.stringify(site),
     });
     if (error) {
-        console.error('Failed to add ecommerce site', error);
+        console.error("Failed to add ecommerce site", error);
         throw new Error(error.message);
     }
     // revalidatePath(paths.dashboard.root, 'layout')
@@ -16,11 +16,11 @@ export const addEcommerceSite = async (site) => {
 };
 // Get all ecommerce sites
 export const getEcommerceSites = async () => {
-    const { data, error } = await fetcher('/rbac/ecommerce_sites/list', {
-        method: 'POST',
+    const { data, error } = await fetcher("/rbac/ecommerce_sites/list", {
+        method: "POST",
     });
     if (error) {
-        console.error('Failed to get ecommerce sites', error);
+        console.error("Failed to get ecommerce sites", error);
         throw new Error(error.message);
     }
     return data;
@@ -37,7 +37,7 @@ export const getEcommerceSite = async (siteId) => {
 // Update an ecommerce site
 export const updateEcommerceSite = async (siteId, site) => {
     const { data, error } = await fetcher(`/rbac/ecommerce_sites/${siteId}`, {
-        method: 'PUT',
+        method: "PUT",
         body: JSON.stringify(site),
     });
     if (error) {
@@ -51,7 +51,7 @@ export const updateEcommerceSite = async (siteId, site) => {
 // Delete an ecommerce site
 export const deleteEcommerceSite = async (siteId) => {
     const { data, error } = await fetcher(`/rbac/ecommerce_sites/${siteId}`, {
-        method: 'DELETE',
+        method: "DELETE",
     });
     if (error) {
         console.error(`Failed to delete ecommerce site with id ${siteId}`, error);
@@ -63,12 +63,12 @@ export const deleteEcommerceSite = async (siteId) => {
 };
 // Create a permission
 export const createPermission = async (permission) => {
-    const { data, error } = await fetcher('/rbac/permissions/create', {
-        method: 'POST',
+    const { data, error } = await fetcher("/rbac/permissions/create", {
+        method: "POST",
         body: JSON.stringify(permission),
     });
     if (error) {
-        console.error('Failed to create permission', error);
+        console.error("Failed to create permission", error);
         throw new Error(error.message);
     }
     return data;
@@ -76,7 +76,7 @@ export const createPermission = async (permission) => {
 // Update a permission
 export const updatePermission = async (permissionId, permission) => {
     const { data, error } = await fetcher(`/rbac/permissions/${permissionId}`, {
-        method: 'PUT',
+        method: "PUT",
         body: JSON.stringify(permission),
     });
     if (error) {
@@ -88,7 +88,7 @@ export const updatePermission = async (permissionId, permission) => {
 // Delete a permission
 export const deletePermission = async (permissionId) => {
     const { data, error } = await fetcher(`/rbac/permissions/${permissionId}`, {
-        method: 'DELETE',
+        method: "DELETE",
     });
     if (error) {
         console.error(`Failed to delete permission with id ${permissionId}`, error);
@@ -98,21 +98,21 @@ export const deletePermission = async (permissionId) => {
 };
 // Create a role
 export const createRole = async (role) => {
-    const { data, error } = await fetcher('/rbac/roles/create', {
-        method: 'POST',
+    const { data, error } = await fetcher("/rbac/roles/create", {
+        method: "POST",
         body: JSON.stringify(role),
     });
     if (error) {
-        console.error('Failed to create role', error);
+        console.error("Failed to create role", error);
         throw new Error(error.message);
     }
     return data;
 };
 // Get all roles
 export const getRoles = async () => {
-    const { data, error } = await fetcher('/rbac/roles/list');
+    const { data, error } = await fetcher("/rbac/roles/list");
     if (error) {
-        console.error('Failed to get roles', error);
+        console.error("Failed to get roles", error);
         throw new Error(error.message);
     }
     return data;
@@ -120,7 +120,7 @@ export const getRoles = async () => {
 // Update a role
 export const updateRole = async (roleId, role) => {
     const { data, error } = await fetcher(`/rbac/roles/${roleId}`, {
-        method: 'PUT',
+        method: "PUT",
         body: JSON.stringify(role),
     });
     if (error) {
@@ -132,7 +132,7 @@ export const updateRole = async (roleId, role) => {
 // Delete a role
 export const deleteRole = async (roleId) => {
     const { data, error } = await fetcher(`/rbac/roles/${roleId}`, {
-        method: 'DELETE',
+        method: "DELETE",
     });
     if (error) {
         console.error(`Failed to delete role with id ${roleId}`, error);
@@ -143,7 +143,7 @@ export const deleteRole = async (roleId) => {
 // Add a permission to a role
 export const addPermissionToRole = async (roleId, permissionId) => {
     const { data, error } = await fetcher(`/rbac/roles/${roleId}/add_permission`, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify({ permission_id: permissionId }),
     });
     if (error) {
@@ -155,7 +155,7 @@ export const addPermissionToRole = async (roleId, permissionId) => {
 // Remove a permission from a role
 export const removePermissionFromRole = async (roleId, permissionId) => {
     const { data, error } = await fetcher(`/rbac/roles/${roleId}/permissions/${permissionId}`, {
-        method: 'DELETE',
+        method: "DELETE",
     });
     if (error) {
         console.error(`Failed to remove permission ${permissionId} from role ${roleId}`, error);
@@ -166,7 +166,7 @@ export const removePermissionFromRole = async (roleId, permissionId) => {
 // Add a role to a user
 export const addRoleToUser = async (roleId, userId) => {
     const { data, error } = await fetcher(`/rbac/roles/${roleId}/add_user`, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify({ user_id: userId }),
     });
     if (error) {

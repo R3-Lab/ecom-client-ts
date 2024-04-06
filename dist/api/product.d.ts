@@ -1,4 +1,4 @@
-import { RequestsProductAddCategory, RequestsProductAddColor, RequestsProductAddMaterial, RequestsProductAddProduct, RequestsProductAddProductType, RequestsProductAddSize, RequestsProductUpdateCategory, RequestsProductUpdateColor, RequestsProductUpdateMaterial, RequestsProductUpdateProduct, RequestsProductUpdateProductType, RequestsProductUpdateSize } from './types';
+import { RequestsProductAddCategory, RequestsProductAddColor, RequestsProductAddMaterial, RequestsProductAddProduct, RequestsProductAddProductType, RequestsProductAddSize, RequestsProductUpdateCategory, RequestsProductUpdateColor, RequestsProductUpdateMaterial, RequestsProductUpdateProduct, RequestsProductUpdateProductType, RequestsProductUpdateSize } from "./types";
 type GetPropertiesQuery = {
     category_ids?: string[];
     size_ids?: string[];
@@ -6,12 +6,12 @@ type GetPropertiesQuery = {
     material_ids?: string[];
     product_type_ids?: string[];
 };
-export declare const getProducts: ({ category_ids, size_ids, color_ids, material_ids, product_type_ids }: GetPropertiesQuery) => Promise<import("ecom-client-ts/openapi").Components.Schemas.EcommerceBackendSchemaProduct[]>;
+export declare const getProducts: ({ category_ids, size_ids, color_ids, material_ids, product_type_ids, }: GetPropertiesQuery) => Promise<import("ecom-client-ts/openapi").Components.Schemas.EcommerceBackendSchemaProduct[]>;
 export declare const getProduct: (productId: string) => Promise<import("ecom-client-ts/openapi").Components.Schemas.EcommerceBackendSchemaProduct>;
 export declare const addProduct: (product: RequestsProductAddProduct) => Promise<import("ecom-client-ts/openapi").Components.Schemas.EcommerceBackendSchemaProduct>;
 export declare const updateProduct: (productId: string, product: RequestsProductUpdateProduct) => Promise<import("ecom-client-ts/openapi").Components.Schemas.EcommerceBackendSchemaProduct>;
 export declare const deleteProduct: (productId: string) => Promise<null>;
-export declare const getProductCategories: ({ limit, offset }: {
+export declare const getProductCategories: ({ limit, offset, }: {
     limit?: number;
     offset?: number;
 }) => Promise<import("ecom-client-ts/openapi").Components.Schemas.EcommerceBackendSchemaCategory[]>;

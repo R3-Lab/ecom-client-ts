@@ -1,39 +1,39 @@
-'use server';
-import { fetcher, getSession } from './index';
-export const getProducts = async ({ category_ids, size_ids, color_ids, material_ids, product_type_ids }) => {
+"use server";
+import { fetcher, getSession } from "./index";
+export const getProducts = async ({ category_ids, size_ids, color_ids, material_ids, product_type_ids, }) => {
     const { site_id } = await getSession();
     const urlParams = new URLSearchParams();
     if (site_id) {
-        urlParams.append('ecommerce_site_id', site_id);
+        urlParams.append("ecommerce_site_id", site_id);
     }
     if (category_ids) {
         for (const category_id of category_ids) {
-            urlParams.append('category_ids', category_id);
+            urlParams.append("category_ids", category_id);
         }
     }
     if (size_ids) {
         for (const size_id of size_ids) {
-            urlParams.append('size_ids', size_id);
+            urlParams.append("size_ids", size_id);
         }
     }
     if (color_ids) {
         for (const color_id of color_ids) {
-            urlParams.append('color_ids', color_id);
+            urlParams.append("color_ids", color_id);
         }
     }
     if (material_ids) {
         for (const material_id of material_ids) {
-            urlParams.append('material_ids', material_id);
+            urlParams.append("material_ids", material_id);
         }
     }
     if (product_type_ids) {
         for (const product_type_id of product_type_ids) {
-            urlParams.append('product_type_ids', product_type_id);
+            urlParams.append("product_type_ids", product_type_id);
         }
     }
     const { data, error } = await fetcher(`/products?${urlParams.toString()}`);
     if (error && !data) {
-        console.error('Failed to get products', error);
+        console.error("Failed to get products", error);
         throw new Error(error.message);
     }
     return data;
@@ -47,12 +47,12 @@ export const getProduct = async (productId) => {
     return data;
 };
 export const addProduct = async (product) => {
-    const { data, error } = await fetcher('/products', {
-        method: 'PUT',
+    const { data, error } = await fetcher("/products", {
+        method: "PUT",
         body: JSON.stringify(product),
     });
     if (error && !data) {
-        console.error('Failed to add product', error);
+        console.error("Failed to add product", error);
         throw new Error(error.message);
     }
     return data;
@@ -60,7 +60,7 @@ export const addProduct = async (product) => {
 // Update a product
 export const updateProduct = async (productId, product) => {
     const { data, error } = await fetcher(`/products/${productId}`, {
-        method: 'PUT',
+        method: "PUT",
         body: JSON.stringify(product),
     });
     if (error && !data) {
@@ -72,7 +72,7 @@ export const updateProduct = async (productId, product) => {
 // Delete a product
 export const deleteProduct = async (productId) => {
     const { data, error } = await fetcher(`/products/${productId}`, {
-        method: 'DELETE',
+        method: "DELETE",
     });
     if (error && !data) {
         console.error(`Failed to delete product with id ${productId}`, error);
@@ -81,21 +81,21 @@ export const deleteProduct = async (productId) => {
     return data;
 };
 // Get all product categories
-export const getProductCategories = async ({ limit, offset }) => {
+export const getProductCategories = async ({ limit, offset, }) => {
     const { site_id } = await getSession();
     const urlParams = new URLSearchParams();
     if (site_id) {
-        urlParams.append('ecommerce_site_id', site_id);
+        urlParams.append("ecommerce_site_id", site_id);
     }
     if (limit) {
-        urlParams.append('limit', limit.toString());
+        urlParams.append("limit", limit.toString());
     }
     if (offset) {
-        urlParams.append('offset', offset.toString());
+        urlParams.append("offset", offset.toString());
     }
     const { data, error } = await fetcher(`/products/categories?${urlParams.toString()}`);
     if (error && !data) {
-        console.error('Failed to get product categories', error);
+        console.error("Failed to get product categories", error);
         throw new Error(error.message);
     }
     return data;
@@ -110,12 +110,12 @@ export const getProductCategory = async (categoryId) => {
 };
 // Add a product category
 export const addProductCategory = async (category) => {
-    const { data, error } = await fetcher('/products/categories', {
-        method: 'POST',
+    const { data, error } = await fetcher("/products/categories", {
+        method: "POST",
         body: JSON.stringify(category),
     });
     if (error && !data) {
-        console.error('Failed to add product category', error);
+        console.error("Failed to add product category", error);
         throw new Error(error.message);
     }
     return data;
@@ -123,7 +123,7 @@ export const addProductCategory = async (category) => {
 // Update a product category
 export const updateProductCategory = async (categoryId, category) => {
     const { data, error } = await fetcher(`/products/categories/${categoryId}`, {
-        method: 'PUT',
+        method: "PUT",
         body: JSON.stringify(category),
     });
     if (error && !data) {
@@ -135,7 +135,7 @@ export const updateProductCategory = async (categoryId, category) => {
 // Delete a product category
 export const deleteProductCategory = async (categoryId) => {
     const { data, error } = await fetcher(`/products/categories/${categoryId}`, {
-        method: 'DELETE',
+        method: "DELETE",
     });
     if (error && !data) {
         console.error(`Failed to delete product category with id ${categoryId}`, error);
@@ -148,23 +148,23 @@ export const getColors = async () => {
     const { site_id } = await getSession();
     const urlParams = new URLSearchParams();
     if (site_id) {
-        urlParams.append('ecommerce_site_id', site_id);
+        urlParams.append("ecommerce_site_id", site_id);
     }
     const { data, error } = await fetcher(`/products/colors?${urlParams.toString()}`);
     if (error && !data) {
-        console.error('Failed to get product colors', error);
+        console.error("Failed to get product colors", error);
         throw new Error(error.message);
     }
     return data;
 };
 // Add a product color
 export const addColor = async (color) => {
-    const { data, error } = await fetcher('/products/colors', {
-        method: 'POST',
+    const { data, error } = await fetcher("/products/colors", {
+        method: "POST",
         body: JSON.stringify(color),
     });
     if (error && !data) {
-        console.error('Failed to add product color', error);
+        console.error("Failed to add product color", error);
         throw new Error(error.message);
     }
     return data;
@@ -172,7 +172,7 @@ export const addColor = async (color) => {
 // Update a product color
 export const updateColor = async (colorId, color) => {
     const { data, error } = await fetcher(`/products/colors/${colorId}`, {
-        method: 'PUT',
+        method: "PUT",
         body: JSON.stringify(color),
     });
     if (error && !data) {
@@ -184,7 +184,7 @@ export const updateColor = async (colorId, color) => {
 // Delete a product color
 export const deleteColor = async (colorId) => {
     const { data, error } = await fetcher(`/products/colors/${colorId}`, {
-        method: 'DELETE',
+        method: "DELETE",
     });
     if (error && !data) {
         console.error(`Failed to delete product color with id ${colorId}`, error);
@@ -197,23 +197,23 @@ export const getMaterials = async () => {
     const { site_id } = await getSession();
     const urlParams = new URLSearchParams();
     if (site_id) {
-        urlParams.append('ecommerce_site_id', site_id);
+        urlParams.append("ecommerce_site_id", site_id);
     }
     const { data, error } = await fetcher(`/products/materials?${urlParams.toString()}`);
     if (error && !data) {
-        console.error('Failed to get product materials', error);
+        console.error("Failed to get product materials", error);
         throw new Error(error.message);
     }
     return data;
 };
 // Add a product material
 export const addMaterial = async (material) => {
-    const { data, error } = await fetcher('/products/materials', {
-        method: 'POST',
+    const { data, error } = await fetcher("/products/materials", {
+        method: "POST",
         body: JSON.stringify(material),
     });
     if (error && !data) {
-        console.error('Failed to add product material', error);
+        console.error("Failed to add product material", error);
         throw new Error(error.message);
     }
     return data;
@@ -221,7 +221,7 @@ export const addMaterial = async (material) => {
 // Update a product material
 export const updateMaterial = async (materialId, material) => {
     const { data, error } = await fetcher(`/products/materials/${materialId}`, {
-        method: 'PUT',
+        method: "PUT",
         body: JSON.stringify(material),
     });
     if (error && !data) {
@@ -233,7 +233,7 @@ export const updateMaterial = async (materialId, material) => {
 // Delete a product material
 export const deleteMaterial = async (materialId) => {
     const { data, error } = await fetcher(`/products/materials/${materialId}`, {
-        method: 'DELETE',
+        method: "DELETE",
     });
     if (error && !data) {
         console.error(`Failed to delete product material with id ${materialId}`, error);
@@ -246,23 +246,23 @@ export const getSizes = async () => {
     const { site_id } = await getSession();
     const urlParams = new URLSearchParams();
     if (site_id) {
-        urlParams.append('ecommerce_site_id', site_id);
+        urlParams.append("ecommerce_site_id", site_id);
     }
     const { data, error } = await fetcher(`/products/sizes?${urlParams.toString()}`);
     if (error && !data) {
-        console.error('Failed to get product sizes', error);
+        console.error("Failed to get product sizes", error);
         throw new Error(error.message);
     }
     return data;
 };
 // Add a product size
 export const addSize = async (size) => {
-    const { data, error } = await fetcher('/products/sizes', {
-        method: 'POST',
+    const { data, error } = await fetcher("/products/sizes", {
+        method: "POST",
         body: JSON.stringify(size),
     });
     if (error && !data) {
-        console.error('Failed to add product size', error);
+        console.error("Failed to add product size", error);
         throw new Error(error.message);
     }
     return data;
@@ -270,7 +270,7 @@ export const addSize = async (size) => {
 // Update a product size
 export const updateSize = async (sizeId, size) => {
     const { data, error } = await fetcher(`/products/sizes/${sizeId}`, {
-        method: 'PUT',
+        method: "PUT",
         body: JSON.stringify(size),
     });
     if (error && !data) {
@@ -282,7 +282,7 @@ export const updateSize = async (sizeId, size) => {
 // Delete a product size
 export const deleteSize = async (sizeId) => {
     const { data, error } = await fetcher(`/products/sizes/${sizeId}`, {
-        method: 'DELETE',
+        method: "DELETE",
     });
     if (error && !data) {
         console.error(`Failed to delete product size with id ${sizeId}`, error);
@@ -295,23 +295,23 @@ export const getProductTypes = async () => {
     const { site_id } = await getSession();
     const urlParams = new URLSearchParams();
     if (site_id) {
-        urlParams.append('ecommerce_site_id', site_id);
+        urlParams.append("ecommerce_site_id", site_id);
     }
     const { data, error } = await fetcher(`/products/types?${urlParams.toString()}`);
     if (error && !data) {
-        console.error('Failed to get product types', error);
+        console.error("Failed to get product types", error);
         throw new Error(error.message);
     }
     return data;
 };
 // Add a product type
 export const addProductType = async (type) => {
-    const { data, error } = await fetcher('/products/types', {
-        method: 'POST',
+    const { data, error } = await fetcher("/products/types", {
+        method: "POST",
         body: JSON.stringify(type),
     });
     if (error && !data) {
-        console.error('Failed to add product type', error);
+        console.error("Failed to add product type", error);
         throw new Error(error.message);
     }
     return data;
@@ -319,7 +319,7 @@ export const addProductType = async (type) => {
 // Update a product type
 export const updateProductType = async (typeId, type) => {
     const { data, error } = await fetcher(`/products/types/${typeId}`, {
-        method: 'PUT',
+        method: "PUT",
         body: JSON.stringify(type),
     });
     if (error && !data) {
@@ -331,7 +331,7 @@ export const updateProductType = async (typeId, type) => {
 // Delete a product type
 export const deleteProductType = async (typeId) => {
     const { data, error } = await fetcher(`/products/types/${typeId}`, {
-        method: 'DELETE',
+        method: "DELETE",
     });
     if (error && !data) {
         console.error(`Failed to delete product type with id ${typeId}`, error);

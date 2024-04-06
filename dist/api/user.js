@@ -1,8 +1,8 @@
 "use server";
-import { revalidatePath } from 'next/cache';
-import { fetcher, getSession } from './index';
+import { revalidatePath } from "next/cache";
+import { fetcher, getSession } from "./index";
 export const getMe = async () => {
-    const { data, error } = await fetcher('/users/me');
+    const { data, error } = await fetcher("/users/me");
     if (error) {
         console.error("Failed to get user", error);
         throw new Error(error.message);
@@ -14,29 +14,29 @@ export const getUsers = async ({ limit, offset, }) => {
     const { site_id } = await getSession();
     const queryParams = new URLSearchParams();
     if (site_id) {
-        queryParams.append('ecommerce_site_id', site_id);
+        queryParams.append("ecommerce_site_id", site_id);
     }
     if (limit) {
-        queryParams.append('limit', limit.toString());
+        queryParams.append("limit", limit.toString());
     }
     if (offset) {
-        queryParams.append('offset', offset.toString());
+        queryParams.append("offset", offset.toString());
     }
     const { data, error } = await fetcher(`/users?${queryParams}`);
     if (error) {
-        console.error('Failed to get users', error);
+        console.error("Failed to get users", error);
         throw new Error(error.message);
     }
     return data;
 };
 // Create a user
 export const createUser = async (user) => {
-    const { data, error } = await fetcher('/users/create', {
-        method: 'POST',
+    const { data, error } = await fetcher("/users/create", {
+        method: "POST",
         body: JSON.stringify(user),
     });
     if (error) {
-        console.error('Failed to create user', error);
+        console.error("Failed to create user", error);
         throw new Error(error.message);
     }
     return data;
@@ -53,7 +53,7 @@ export const getUserById = async (userId) => {
 // Update a user
 export const updateUser = async (userId, user) => {
     const { data, error } = await fetcher(`/users/${userId}`, {
-        method: 'PUT',
+        method: "PUT",
         body: JSON.stringify(user),
     });
     if (error) {
@@ -67,7 +67,7 @@ export const updateUser = async (userId, user) => {
 // Delete a user
 export const deleteUser = async (userId) => {
     const { error } = await fetcher(`/users/${userId}`, {
-        method: 'DELETE',
+        method: "DELETE",
     });
     if (error) {
         console.error(`Failed to delete user with id ${userId}`, error);
@@ -84,7 +84,7 @@ export const getCart = async () => {
         if (error.status === 404) {
             return;
         }
-        console.error('Failed to get cart', error);
+        console.error("Failed to get cart", error);
         throw new Error(error.message);
     }
     return data;
@@ -95,16 +95,16 @@ export const addToCart = async (product_id, quantity) => {
         return;
     }
     const { error } = await fetcher(`/users/${payload.id}/cart`, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify({ product_id, quantity }),
     });
     if (error) {
-        console.error('Failed to add to cart', error);
+        console.error("Failed to add to cart", error);
         throw new Error(error.message);
     }
-    revalidatePath('/', 'layout');
-    revalidatePath('/cart', 'layout');
-    revalidatePath('/cart');
+    revalidatePath("/", "layout");
+    revalidatePath("/cart", "layout");
+    revalidatePath("/cart");
 };
 export const updateCartItem = async (cart_item_id, quantity) => {
     const { payload } = await getSession();
@@ -112,16 +112,16 @@ export const updateCartItem = async (cart_item_id, quantity) => {
         return;
     }
     const { error } = await fetcher(`/users/${payload.id}/cart`, {
-        method: 'PUT',
+        method: "PUT",
         body: JSON.stringify({ cart_item_id, quantity }),
     });
     if (error) {
-        console.error('Failed to update cart', error);
+        console.error("Failed to update cart", error);
         throw new Error(error.message);
     }
-    revalidatePath('/', 'layout');
-    revalidatePath('/cart', 'layout');
-    revalidatePath('/cart');
+    revalidatePath("/", "layout");
+    revalidatePath("/cart", "layout");
+    revalidatePath("/cart");
 };
 export const deleteCartItem = async (cart_item_id) => {
     if (!cart_item_id) {
@@ -132,23 +132,23 @@ export const deleteCartItem = async (cart_item_id) => {
         return;
     }
     const { error } = await fetcher(`/users/${payload.id}/cart`, {
-        method: 'DELETE',
+        method: "DELETE",
         body: JSON.stringify({ cart_item_id }),
     });
     if (error) {
-        console.error('Failed to delete cart', error);
+        console.error("Failed to delete cart", error);
         throw new Error(error.message);
     }
-    revalidatePath('/', 'layout');
-    revalidatePath('/cart', 'layout');
-    revalidatePath('/cart');
+    revalidatePath("/", "layout");
+    revalidatePath("/cart", "layout");
+    revalidatePath("/cart");
 };
 export const createSession = async () => {
-    const { data, error } = await fetcher('/users/checkout_session', {
-        method: 'POST',
+    const { data, error } = await fetcher("/users/checkout_session", {
+        method: "POST",
     });
     if (error) {
-        console.error('Failed to create session', error);
+        console.error("Failed to create session", error);
         throw new Error(error.message);
     }
     return data;

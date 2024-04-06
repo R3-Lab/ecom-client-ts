@@ -1,4 +1,4 @@
-import { RequestsRbacCreateRole, RequestsRbacUpdateRole, RequestsRbacAddEcommerceSite, RequestsRbacCreatePermission, RequestsRbacUpdatePermission, RequestsRbacUpdateEcommerceSite } from './types';
+import { RequestsRbacCreateRole, RequestsRbacUpdateRole, RequestsRbacAddEcommerceSite, RequestsRbacCreatePermission, RequestsRbacUpdatePermission, RequestsRbacUpdateEcommerceSite } from "./types";
 export declare const addEcommerceSite: (site: RequestsRbacAddEcommerceSite) => Promise<import("ecom-client-ts/openapi").Components.Schemas.EcommerceBackendSchemaEcommerceSite>;
 export declare const getEcommerceSites: () => Promise<import("ecom-client-ts/openapi").Components.Schemas.EcommerceBackendSchemaEcommerceSite[]>;
 export declare const getEcommerceSite: (siteId: string) => Promise<import("ecom-client-ts/openapi").Components.Schemas.EcommerceBackendSchemaEcommerceSite>;

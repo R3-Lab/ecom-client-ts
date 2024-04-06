@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
 import { NextRequest } from "next/server";
 import { revalidatePath } from "next/cache";
+import { Components, Paths } from "./openapi";
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -10,6 +11,8 @@ export const API_BASE: string =
   (isProd ? "https://backend.bitnarts.com" : "http://localhost:5800");
 export const SITE_ID: string =
   process.env.SITE_ID || "ebc1e210-d8d7-46be-ba98-349b59b4e3dd";
+
+export { Components, Paths };
 
 type FetcherResponse<T> = {
   data?: T;
