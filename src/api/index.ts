@@ -9,8 +9,7 @@ const isProd = process.env.NODE_ENV === "production";
 export const API_BASE: string =
   process.env.SERVER_URL ||
   (isProd ? "https://backend.bitnarts.com" : "http://localhost:5800");
-export const SITE_ID: string =
-  process.env.SITE_ID || "ebc1e210-d8d7-46be-ba98-349b59b4e3dd";
+export const SITE_ID: string | undefined = process.env.SITE_ID;
 
 export { Components, Paths };
 
@@ -94,13 +93,13 @@ export const getSession = async (req?: NextRequest): Promise<SessionType> => {
 
   if (req) {
     const token = req.cookies.get("token")?.value;
-    const site_id = req.cookies.get("site_id")?.value;
+    const site_id = SITE_ID || req.cookies.get("site_id")?.value;
 
     return { token, site_id, payload: getPayload(token) };
   }
 
   const token = cookies().get("token")?.value;
-  const site_id = cookies().get("site_id")?.value;
+  const site_id = SITE_ID || cookies().get("site_id")?.value;
 
   return { token, site_id, payload: getPayload(token) };
 };

@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { Components, Paths } from "./openapi";
 export declare const API_BASE: string;
-export declare const SITE_ID: string;
+export declare const SITE_ID: string | undefined;
 export { Components, Paths };
 type FetcherResponse<T> = {
     data?: T;

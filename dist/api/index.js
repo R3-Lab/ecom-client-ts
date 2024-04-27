@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 const isProd = process.env.NODE_ENV === "production";
 export const API_BASE = process.env.SERVER_URL ||
     (isProd ? "https://backend.bitnarts.com" : "http://localhost:5800");
-export const SITE_ID = process.env.SITE_ID || "ebc1e210-d8d7-46be-ba98-349b59b4e3dd";
+export const SITE_ID = process.env.SITE_ID;
 export const fetcher = async (path, options = {}) => {
     const { token: cookieToken, site_id } = await getSession();
     const authorization = cookieToken && {
@@ -54,11 +54,11 @@ export const getSession = async (req) => {
     };
     if (req) {
         const token = req.cookies.get("token")?.value;
-        const site_id = req.cookies.get("site_id")?.value;
+        const site_id = SITE_ID || req.cookies.get("site_id")?.value;
         return { token, site_id, payload: getPayload(token) };
     }
     const token = cookies().get("token")?.value;
-    const site_id = cookies().get("site_id")?.value;
+    const site_id = SITE_ID || cookies().get("site_id")?.value;
     return { token, site_id, payload: getPayload(token) };
 };
 export const setSiteIdSession = async (site_id, current_path) => {
