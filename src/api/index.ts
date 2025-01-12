@@ -98,8 +98,10 @@ export const getSession = async (req?: NextRequest): Promise<SessionType> => {
     return { token, site_id, payload: getPayload(token) };
   }
 
-  const token = cookies().get("token")?.value;
-  const site_id = SITE_ID || cookies().get("site_id")?.value;
+  const c = await cookies();
+
+  const token = c.get("token")?.value;
+  const site_id = SITE_ID || c.get("site_id")?.value;
 
   return { token, site_id, payload: getPayload(token) };
 };
@@ -108,10 +110,11 @@ export const setSiteIdSession = async (
   site_id?: string,
   current_path?: string,
 ) => {
+  const c = await cookies();
   if (!site_id) {
-    cookies().delete("site_id");
+    c.delete("site_id");
   } else {
-    cookies().set("site_id", site_id, {
+    c.set("site_id", site_id, {
       secure: process.env.NODE_ENV === "production",
       maxAge: 60 * 60 * 24 * 7, // One week
       path: "/",

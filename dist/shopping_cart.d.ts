@@ -29,14 +29,23 @@ type AppStoreProps = {
     removeItem: (product_id: string) => void;
 };
 export declare const useAppStore: import("zustand").UseBoundStore<Omit<Omit<import("zustand").StoreApi<AppStoreProps>, "setState"> & {
-    setState<A extends string | {
+    setState(partial: AppStoreProps | Partial<AppStoreProps> | ((state: AppStoreProps) => AppStoreProps | Partial<AppStoreProps>), replace?: false, action?: string | {
+        [x: string]: unknown;
+        [x: number]: unknown;
+        [x: symbol]: unknown;
         type: string;
-    }>(partial: AppStoreProps | Partial<AppStoreProps> | ((state: AppStoreProps) => AppStoreProps | Partial<AppStoreProps>), replace?: boolean, action?: A): void;
+    }): void;
+    setState(state: AppStoreProps | ((state: AppStoreProps) => AppStoreProps), replace: true, action?: string | {
+        [x: string]: unknown;
+        [x: number]: unknown;
+        [x: symbol]: unknown;
+        type: string;
+    }): void;
 }, "persist"> & {
     persist: {
         setOptions: (options: Partial<import("zustand/middleware").PersistOptions<AppStoreProps, AppStoreProps>>) => void;
         clearStorage: () => void;
-        rehydrate: () => void | Promise<void>;
+        rehydrate: () => Promise<void> | void;
         hasHydrated: () => boolean;
         onHydrate: (fn: (state: AppStoreProps) => void) => () => void;
         onFinishHydration: (fn: (state: AppStoreProps) => void) => () => void;

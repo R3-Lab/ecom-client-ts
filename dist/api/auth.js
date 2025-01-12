@@ -24,7 +24,7 @@ export const register = async (data) => {
     getTokenAndSetCookie(headers);
 };
 export const logout = async () => {
-    cookies().set("token", "", {
+    (await cookies()).set("token", "", {
         secure: process.env.NODE_ENV === "production",
         maxAge: 0,
         path: "/",
@@ -36,9 +36,11 @@ const getTokenAndSetCookie = (headers) => {
         throw new Error("No auth header");
     }
     const token = authHeader.split(" ")[1];
-    cookies().set("token", token, {
-        secure: process.env.NODE_ENV === "production",
-        maxAge: 60 * 60 * 24 * 7, // One week
-        path: "/",
+    cookies().then((cookies) => {
+        cookies.set("token", token, {
+            secure: process.env.NODE_ENV === "production",
+            maxAge: 60 * 60 * 24 * 7, // One week
+            path: "/",
+        });
     });
 };
